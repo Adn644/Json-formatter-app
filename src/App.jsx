@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect} from 'react'
 import Editor from '@monaco-editor/react'
 import './styles.css'
 
@@ -41,12 +41,75 @@ export default function App() {
   const [error, setError] = useState('')
   const [isMinified, setIsMinified] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
 
+  const [apiUrl, setApiUrl] = useState('')
   const inputStatus = useMemo(() => {
-    if (!input.trim()) return null
-    try { JSON.parse(input); return 'valid' }
-    catch { return 'invalid' }
-  }, [input])
+  if (!input.trim()) return null
+
+  try {
+    JSON.parse(input)
+    return 'valid'
+  } catch {
+    return 'invalid'
+  }
+}, [input])
+
+
+  const [showThemes, setShowThemes] = useState(false)
+  const [theme, setTheme] = useState(() => {
+  const prefersDark = window.matchMedia(
+    '(prefers-color-scheme: dark)'
+  ).matches
+
+  return prefersDark ? 'dark' : 'light'
+})
+
+  useEffect(() => {
+  const savedTheme = localStorage.getItem('json-theme')
+
+  if (savedTheme) {
+    setTheme(savedTheme)
+  }
+}, [])
+
+useEffect(() => {
+  localStorage.setItem('json-theme', theme)
+}, [theme])
+
+useEffect(() => {
+  if (!input.trim()) {
+    setOutput('')
+    setError('')
+    return
+  }
+
+  try {
+    const parsed = JSON.parse(input)
+
+    setOutput(
+      JSON.stringify(parsed, null, 2)
+    )
+
+    setError('')
+  } catch (e) {
+    setError(e.message)
+  }
+}, [input])
+
+const fetchAPIData = async () => {
+  if (!apiUrl.trim()) return
+  try {
+    const response = await fetch(apiUrl)
+    const data = await response.json()
+    setInput(
+      JSON.stringify(data, null, 2)
+    )
+    setError('')
+  } catch (e) {
+    setError('Failed to fetch API data')
+  }
+}
 
   const stats = useMemo(() => {
     if (!output) return null
@@ -89,6 +152,15 @@ export default function App() {
     }
   }, [input])
 
+  const handleFile = (file) => {
+  if (!file) return
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    setInput(e.target.result)
+  }
+  reader.readAsText(file)
+}
+
   const copyOutput = useCallback(() => {
     if (!output) return
     navigator.clipboard.writeText(output).then(() => {
@@ -129,7 +201,7 @@ export default function App() {
   }
 
   return (
-    <div className="app">
+    <div className={`app theme-${theme}`}>
       {/* Header */}
       <div className="orb orb1"></div>
       <div className="orb orb2"></div>
@@ -143,9 +215,36 @@ export default function App() {
             </div>
           </div>
           <div className="header-right">
-            <button className="btn-ghost" onClick={clearAll} aria-label="Clear all">
-              Clear
-            </button>
+            <div className="theme-wrapper">
+                <button
+                  className="theme-toggle"
+                  onClick={() => setShowThemes(!showThemes)}
+                  >
+                  <ThemeIcon />
+                </button>
+
+                 {showThemes && (
+                  <div className="theme-menu">
+
+                    <button onClick={() => setTheme('dark')}>
+                      Dark
+                    </button>
+
+                    <button onClick={() => setTheme('pastel')}>
+                      Pastel
+                    </button>
+
+                    <button onClick={() => setTheme('hacker')}>
+                       Hacker
+                    </button>
+
+                    <button onClick={() => setTheme('light')}>
+                        Light
+                    </button>
+
+                  </div>
+          )}
+            </div>
             <button
               className={`btn-primary${copied ? ' copied' : ''}`}
               onClick={copyOutput}
@@ -232,15 +331,58 @@ export default function App() {
         </div>
       )}
 
+      <div className="api-bar">
+
+        <input
+          type="text"
+          placeholder="Enter URL to fetch JSON data"
+          value={apiUrl}
+          onChange={(e) => setApiUrl(e.target.value)}
+        />
+
+        <button
+          onClick={fetchAPIData}
+        >
+        Fetch
+        </button>
+
+      </div>
+
       {/* Main panels */}
-      <main className="main">
-        <div className="panel input-panel">
+      <main className="main"
+      >
+      <div className="input-section">
+       <div
+        className={`panel input-panel ${
+          isDragging ? 'dragging' : ''
+        }`}
+
+        onDragOver={(e) => {
+          e.preventDefault()
+          setIsDragging(true)
+        }}
+
+        onDragLeave={() => {
+          setIsDragging(false)
+        }}
+
+        onDrop={(e) => {
+          e.preventDefault()
+
+          setIsDragging(false)
+
+          const file = e.dataTransfer.files[0]
+
+          handleFile(file)
+        }}
+        >
+
           <div className="panel-header">
             <span className="panel-label">Input</span>
             <span className="panel-hint">⌘ ↵ to format</span>
           </div>
           <Editor
-            height="100%"
+            height="500px"
             defaultLanguage="json"
             theme="vs-dark"
             value={input}
@@ -252,10 +394,29 @@ export default function App() {
             padding: { top: 16 },
             scrollBeyondLastLine: false,
             wordWrap: 'on',
-        }}
-        />
-        </div>
+          }}
+         />
 
+
+        <div className="floating-drop-hint">
+          ⬆ Drag & Drop JSON file
+        </div>
+      </div>
+          <div className="panel-actions">
+
+            <button
+              className="clear-editor-btn"
+              onClick={() => {
+                setInput('')
+                setOutput('')
+                setError('')
+              }}
+            >
+            Clear
+            </button>
+
+          </div>
+      </div>
         <div className="panel output-panel">
           <div className="panel-header">
             <div className="panel-label-row">
@@ -330,6 +491,31 @@ function IconError() {
       <circle cx="8" cy="8" r="6"/>
       <line x1="8" y1="5" x2="8" y2="8.5" strokeLinecap="round"/>
       <circle cx="8" cy="11" r="0.6" fill="currentColor"/>
+    </svg>
+  )
+}
+
+function ThemeIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2"/>
+      <path d="M12 20v2"/>
+      <path d="M4.93 4.93l1.41 1.41"/>
+      <path d="M17.66 17.66l1.41 1.41"/>
+      <path d="M2 12h2"/>
+      <path d="M20 12h2"/>
+      <path d="M6.34 17.66l-1.41 1.41"/>
+      <path d="M19.07 4.93l-1.41 1.41"/>
     </svg>
   )
 }
