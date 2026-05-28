@@ -61,7 +61,7 @@ Paste an endpoint → click **Fetch** → instantly view formatted JSON response
 
 ---
 
-# 🛠 Tech Stack
+#  Tech Stack
 
 * **React**
 * **Vite**
@@ -122,14 +122,14 @@ Your data never leaves your device.
 
 ---
 
-# 📸 Preview
+#  Preview
 
 <img width="1918" height="970" alt="image" src="https://github.com/user-attachments/assets/f73475c3-f596-49a0-a63c-7eee9b51ac07" />
 
 
 ---
 
-# 💡 Future Improvements
+#  Future Improvements
 
 * JSON Tree Explorer
 * Resizable Panels
