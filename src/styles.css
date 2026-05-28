@@ -5,36 +5,51 @@
 }
 
 :root {
-  --bg: #0a0a0c;
-  --bg-gradient: radial-gradient(ellipse at 50% 0%, #131008 0%, #0a0a0c 70%);
-  --surface: #111115;
-  --surface-hover: #18181d;
+  --bg: #0b1020;
+
+  --bg-gradient: 
+    radial-gradient(circle at top left, rgba(168, 85, 247, 0.28), transparent 28%),
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.22), transparent 30%),
+    radial-gradient(circle at bottom right,rgba(236, 72, 153, 0.16),transparent 30%),
+
+    linear-gradient(to bottom, #0b1020 , #111827);
+
+  --surface: rgba(17, 24, 39, 0.72);
+  --surface-hover: rgba(30, 41, 59, 0.82);
+
   --border: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 255, 255, 0.14);
-  --text: rgba(255, 255, 255, 0.92);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --text-muted: rgba(255, 255, 255, 0.38);
-  --accent: #f59e0b;
-  --accent-hover: #d97706;
-  --accent-dim: rgba(245, 158, 11, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.18);
+
+  --text: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --accent-dim: rgba(139, 92, 246, 0.15);
+
   --error: #fca5a5;
   --error-bg: rgba(239, 68, 68, 0.08);
   --error-border: rgba(239, 68, 68, 0.2);
-  --shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --r-lg: 20px;
-  --r-md: 14px;
-  --r-sm: 10px;
+
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.22);
+
+  --r-lg: 24px;
+  --r-md: 16px;
+  --r-sm: 12px;
   --r-pill: 999px;
-  --transition: 180ms ease;
+
+  --transition: 220ms ease;
+
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
 
   /* JSON syntax token colors */
-  --jt-key: #60a5fa;
+  --jt-key: #93c5fd;
   --jt-string: #86efac;
-  --jt-number: #fcd34d;
-  --jt-boolean: #f472b6;
+  --jt-number: #f9a8d4;
+  --jt-boolean: #c4b5fd;
   --jt-null: #94a3b8;
 }
 
@@ -102,6 +117,15 @@ body {
   letter-spacing: -0.015em;
   color: var(--text);
   line-height: 1.2;
+  background: linear-gradient(
+  to right,
+  #c084fc,
+  #60a5fa,
+  #f9a8d4
+);
+
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
 }
 
 .header-sub {
@@ -137,17 +161,31 @@ body {
 }
 
 .btn-primary {
-  padding: 7px 18px;
-  background: var(--text);
+  padding: 8px 18px;
+
+  background: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #3b82f6
+  );
+
   border: none;
   border-radius: var(--r-pill);
-  color: #000;
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
+
+  color: white;
+
+  font-size: 0.82rem;
   font-weight: 600;
+
   cursor: pointer;
+
   transition: all var(--transition);
-  line-height: 1;
+
+  box-shadow:
+    0 10px 25px rgba(139,92,246,0.35);
+}
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
 }
 .btn-primary:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.82);
@@ -182,7 +220,7 @@ body {
 .toolbar-left {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 10px;
 }
 
 .toolbar-right {
@@ -201,30 +239,53 @@ body {
 .toolbar-btn {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 5px 12px;
+
+  padding: 8px 14px;
+
   background: transparent;
-  border: none;
-  border-radius: var(--r-sm);
+
+  border: 1px solid transparent;
+
+  border-radius: 12px;
+
   color: var(--text-secondary);
+
   font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  font-weight: 500;
+  font-size: 0.84rem;
+  font-weight: 600;
+
   cursor: pointer;
-  transition: all var(--transition);
+
+  transition:
+    all 0.22s ease;
   line-height: 1;
 }
 .toolbar-btn:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text);
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateY(-2px);
 }
 .toolbar-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
 }
 .toolbar-btn.active {
-  background: var(--accent-dim);
-  color: var(--accent);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139,92,246,0.22),
+      rgba(236,72,153,0.16)
+    );
+
+  color: #c4b5fd;
+
+  border-color: rgba(168,85,247,0.24);
+
+  box-shadow:
+    0 0 20px rgba(168,85,247,0.12);
 }
 
 .stats-text {
@@ -283,13 +344,27 @@ body {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 20px 50px rgba(0,0,0,0.35);
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
   min-height: 0;
 }
+.panel:hover {
+  transform: translateY(-3px);
 
+  border-color: rgba(255,255,255,0.14);
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.42),
+    0 0 30px rgba(168,85,247,0.08);
+}
 .panel-header {
   flex-shrink: 0;
   display: flex;
@@ -343,6 +418,8 @@ body {
   outline: none;
   resize: none;
   color: var(--text);
+  caret-color: #8b5cf6;
+  background: rgba(255,255,255,0.01);
   font-family: var(--font-mono);
   font-size: 0.875rem;
   line-height: 1.7;
@@ -364,6 +441,7 @@ body {
   font-size: 0.875rem;
   line-height: 1.7;
   color: var(--text-secondary);
+  text-shadow: 0 0 1px rgba(255,255,255,0.08);
   white-space: pre;
   tab-size: 2;
   word-break: normal;
@@ -430,4 +508,53 @@ body {
   .main { padding: 12px 16px; gap: 12px; }
   .day-badge { display: none; }
   .stats-text { display: none; }
+}
+
+.orb {
+  position: fixed;
+  border-radius: 999px;
+  filter: blur(90px);
+  z-index: -1;
+  opacity: 0.35;
+  animation: floatOrb 12s ease-in-out infinite;
+}
+
+.orb1 {
+  width: 240px;
+  height: 240px;
+  background: #8b5cf6;
+  top: -60px;
+  left: -60px;
+}
+
+.orb2 {
+  width: 220px;
+  height: 220px;
+  background: #ec4899;
+  bottom: -60px;
+  right: -40px;
+  animation-delay: 4s;
+}
+
+.orb3 {
+  width: 180px;
+  height: 180px;
+  background: #3b82f6;
+  top: 40%;
+  left: 50%;
+  animation-delay: 2s;
+}
+
+@keyframes floatOrb {
+  0% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  50% {
+    transform: translateY(-25px) translateX(15px);
+  }
+
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
 }

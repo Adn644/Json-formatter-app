@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from 'react'
+import Editor from '@monaco-editor/react'
 import './styles.css'
 
 // Safely highlight JSON tokens by escaping HTML first, then wrapping tokens in spans
@@ -25,7 +26,6 @@ function syntaxHighlight(json) {
 
 const SAMPLE_JSON = `{
   "name": "JSON Formatter",
-  "day": 23,
   "features": ["format", "minify", "validate"],
   "syntax": {
     "highlighting": true,
@@ -131,12 +131,15 @@ export default function App() {
   return (
     <div className="app">
       {/* Header */}
+      <div className="orb orb1"></div>
+      <div className="orb orb2"></div>
+      <div className="orb orb3"></div>
       <header className="header">
         <div className="header-inner">
           <div className="header-left">
             <div>
-              <h1 className="header-title">JSON Formatter</h1>
-              <p className="header-sub">Format, validate &amp; minify JSON instantly</p>
+              <h1 className="header-title">JSON Studio</h1>
+              <p className="header-sub">Developer-friendly JSON formatter & validator</p>
             </div>
           </div>
           <div className="header-right">
@@ -165,9 +168,29 @@ export default function App() {
               disabled={!input.trim()}
               aria-label="Format JSON"
             >
-              <IconFormat />
+               <IconFormat />
               Format
             </button>
+
+            <button
+              className="toolbar-btn"
+              onClick={() => {
+                const blob = new Blob([output], {
+                  type: 'application/json'
+                })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = 'formatted.json'
+                a.click()
+          
+              }}
+              disabled={!output}
+            >
+              <IconExport />
+              Export
+            </button>
+            
             <button
               className={`toolbar-btn${isMinified && output ? ' active' : ''}`}
               onClick={minifyJSON}
@@ -216,17 +239,21 @@ export default function App() {
             <span className="panel-label">Input</span>
             <span className="panel-hint">⌘ ↵ to format</span>
           </div>
-          <textarea
+          <Editor
+            height="100%"
+            defaultLanguage="json"
+            theme="vs-dark"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={'{\n  "paste": "your JSON here"\n}'}
-            spellCheck={false}
-            autoComplete="off"
-            autoCorrect="off"
-            autoCapitalize="off"
-            aria-label="JSON input"
-          />
+            onChange={(value) => setInput(value || '')}
+            options={{
+            fontSize: 14,
+            minimap: { enabled: false },
+            smoothScrolling: true,
+            padding: { top: 16 },
+            scrollBeyondLastLine: false,
+            wordWrap: 'on',
+        }}
+        />
         </div>
 
         <div className="panel output-panel">
@@ -248,7 +275,7 @@ export default function App() {
           ) : (
             <div className="output-empty">
               <IconDoc />
-              <span>Formatted output will appear here</span>
+              <span>Formatted output will appear here!!</span>
             </div>
           )}
         </div>
@@ -274,6 +301,25 @@ function IconMinify() {
       <line x1="2" y1="8" x2="10" y2="8"/>
       <line x1="2" y1="11" x2="12" y2="11"/>
       <path d="M12 6.5L14 8l-2 1.5"/>
+    </svg>
+  )
+}
+
+function IconExport() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8 2v8" />
+      <path d="M5 7l3 3 3-3" />
+      <path d="M3 13h10" />
     </svg>
   )
 }
