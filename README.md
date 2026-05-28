@@ -1,73 +1,146 @@
-# JSON Formatter
+# JSON Studio 
 
-Minimal web app to **format, validate and minify JSON instantly**.
-No signup.
-No API.
-Just paste and format.
+A modern developer-friendly JSON formatter, validator, and API testing tool built with **React + Vite**.
 
----
-
-## Live Demo
-
-https://json-formatter-amber.vercel.app/
+Format, validate, minify, and explore JSON instantly with a polished glassmorphism UI, Monaco Editor integration, drag-and-drop support, and live API fetching.
 
 ---
 
-## Features
+## 🌐 Live Demo
 
-- **Instant formatting** – pretty-print JSON with 2-space indentation
-- **Minify** – collapse JSON into a single line
-- **Syntax highlighting** – color-coded keys, strings, numbers, booleans, and nulls
-- **Live validation** – real-time Valid / Invalid status as you type
-- **Live stats** – line count and character count
-- **Copy output** – copy formatted or minified JSON to clipboard
-- **Keyboard shortcut** – `⌘ ↵` to format instantly
-- **Tab support** – use Tab key to indent inside the editor
-- **Example JSON** – load sample data to get started
-- **Clear** – reset editor and output instantly
-- Clean, responsive, Apple-inspired dark UI
-- No authentication
-- No ads
-- No watermarks
+https://json-formatter-app-eight.vercel.app/
 
 ---
 
-## Tech Stack
+#  Features
 
-- React (Vite)
-- Vanilla CSS (Apple-inspired UI)
-- Vercel (static deploy)
+##  JSON Utilities
 
----
-
-## How It Works
-
-1. **Paste your JSON** into the editor on the left
-2. **Click Format** or press `⌘ ↵` to pretty-print
-3. **Click Minify** to collapse into a single line
-4. **Copy the output** with one click
-
-> Everything is processed client-side. Nothing is uploaded.
+* Instant JSON formatting with proper indentation
+* JSON minification
+* Real-time JSON validation
+* Copy formatted output to clipboard
+* Export formatted JSON as `.json` file
+* Live line & character statistics
 
 ---
 
-## Privacy
+##  Modern UI
 
-All processing happens **locally in your browser**.
-No data is sent to any server.
+* Glassmorphism-inspired interface
+* Animated gradient background
+* Dark / pastel theme support
+* Smooth transitions & hover effects
+* Responsive modern layout
+* Developer-focused UX
 
 ---
 
-## Installation
+##  Advanced Editor Features
+
+* Monaco Editor integration
+* Syntax highlighting
+* Tab indentation support
+* Keyboard shortcuts (`Ctrl/Cmd + Enter`)
+* Drag & drop JSON file upload
+* Quick clear/reset functionality
+
+---
+
+## 🌍 API Tester
+
+Fetch live JSON directly from APIs.
+
+Example:
 
 ```bash
-# Clone the repo
-git clone https://github.com/berkinyilmaz/json-formatter.git
+https://jsonplaceholder.typicode.com/users
+```
 
-# Install dependencies
-cd json-formatter
+Paste an endpoint → click **Fetch** → instantly view formatted JSON response.
+
+---
+
+# 🛠 Tech Stack
+
+* **React**
+* **Vite**
+* **Monaco Editor**
+* **Vanilla CSS**
+* **Vercel**
+
+---
+
+# 🚀 Getting Started
+
+## Clone the repository
+
+```bash
+git clone https://github.com/Adn644/json-formatter-app.git
+```
+
+---
+
+## Install dependencies
+
+```bash
 npm install
+```
 
-# Run locally
+---
+
+## Start development server
+
+```bash
 npm run dev
 ```
+
+---
+
+# 📂 Project Structure
+
+```bash
+src/
+ ├── App.jsx
+ ├── styles.css
+ └── main.jsx
+```
+
+---
+
+# 🔒 Privacy
+
+All JSON processing happens completely in the browser.
+
+* No authentication
+* No backend
+* No database
+* No tracking
+* No data uploads
+
+Your data never leaves your device.
+
+---
+
+# 📸 Preview
+
+<img width="1918" height="970" alt="image" src="https://github.com/user-attachments/assets/f73475c3-f596-49a0-a63c-7eee9b51ac07" />
+
+
+---
+
+# 💡 Future Improvements
+
+* JSON Tree Explorer
+* Resizable Panels
+* Live Formatting While Typing
+* Additional Themes
+* Search Inside JSON
+* Collapsible JSON Nodes
+* Mobile Optimization
+
+---
+
+# 👨‍💻 Author
+
+Built by Adn644 using React + Vite.
