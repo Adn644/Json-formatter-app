@@ -141,6 +141,7 @@ Your data never leaves your device.
 
 ---
 
-# 👨‍💻 Author
+# Author
 
-Built by Adn644 using React + Vite.
+Built by Aishee Dutta
+using React + Vite.
